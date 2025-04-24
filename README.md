@@ -1,5 +1,7 @@
 # Welcome to your Github project
 
+## API KEY - AIzaSyAiW-F4sRX4q3cqu-IdHH8BbeoY2wkCm2s
+
 ## Project info
 
 **URL**: https://stone-sight-id.vercel.app
