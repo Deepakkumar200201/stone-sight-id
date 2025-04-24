@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import { Upload, Camera, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface ImageUploaderProps {
   onImageSelect: (file: File) => void;
+  analyzing?: boolean;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect, analyzing = false }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +68,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect }) => {
     setTimeout(() => {
       setIsLoading(false);
       onImageSelect(file);
-    }, 1500);
+    }, 500);
   };
 
   const clearImage = () => {
@@ -125,11 +126,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect }) => {
         </div>
       ) : (
         <div className="relative rounded-lg overflow-hidden bg-muted/20">
-          {isLoading && (
+          {(isLoading || analyzing) && (
             <div className="absolute inset-0 bg-background/80 flex items-center justify-center z-10">
               <div className="flex flex-col items-center gap-2">
                 <Loader2 className="h-8 w-8 text-primary animate-spin" />
-                <p className="text-sm font-medium">Processing image...</p>
+                <p className="text-sm font-medium">
+                  {isLoading ? "Processing image..." : "Analyzing rock with Gemini AI..."}
+                </p>
               </div>
             </div>
           )}
@@ -143,6 +146,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect }) => {
             size="icon" 
             className="absolute top-2 right-2"
             onClick={clearImage}
+            disabled={analyzing}
           >
             <X className="h-4 w-4" />
           </Button>

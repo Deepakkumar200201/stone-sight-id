@@ -9,14 +9,22 @@ import { Separator } from '@/components/ui/separator';
 export interface RockData {
   type: string;
   name: string;
+  scientificName?: string;
   confidence: number;
   composition: string[];
   description: string;
   commonLocations: string[];
   category: string;
   hardness?: number;
+  luster?: string;
+  colorRange?: string[];
+  streakColor?: string;
+  cleavage?: string;
+  crystalStructure?: string;
   uses?: string[];
   formation?: string;
+  collectingValue?: string;
+  funFacts?: string[];
   imageUrl?: string;
 }
 
@@ -46,6 +54,9 @@ const RockResult: React.FC<RockResultProps> = ({ data, onReset }) => {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Name</p>
               <p className="text-xl font-medium">{data.name}</p>
+              {data.scientificName && (
+                <p className="text-sm text-muted-foreground italic">{data.scientificName}</p>
+              )}
             </div>
             
             <div>
@@ -68,6 +79,47 @@ const RockResult: React.FC<RockResultProps> = ({ data, onReset }) => {
               </div>
             )}
             
+            {data.luster && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Luster</p>
+                <p className="text-md">{data.luster}</p>
+              </div>
+            )}
+            
+            {data.colorRange && data.colorRange.length > 0 && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Color Range</p>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {data.colorRange.map((color, i) => (
+                    <div key={i} className="text-xs bg-muted px-2 py-1 rounded-full">
+                      {color}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {data.streakColor && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Streak Color</p>
+                <p className="text-md">{data.streakColor}</p>
+              </div>
+            )}
+            
+            {data.cleavage && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Cleavage/Fracture</p>
+                <p className="text-md">{data.cleavage}</p>
+              </div>
+            )}
+            
+            {data.crystalStructure && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Crystal Structure</p>
+                <p className="text-md">{data.crystalStructure}</p>
+              </div>
+            )}
+            
             <div>
               <p className="text-sm font-medium text-muted-foreground">Composition</p>
               <div className="flex flex-wrap gap-2 mt-1">
@@ -78,6 +130,13 @@ const RockResult: React.FC<RockResultProps> = ({ data, onReset }) => {
                 ))}
               </div>
             </div>
+            
+            {data.collectingValue && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Collecting Value</p>
+                <p className="text-md">{data.collectingValue}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -136,10 +195,21 @@ const RockResult: React.FC<RockResultProps> = ({ data, onReset }) => {
               </div>
             )}
             
+            {data.funFacts && data.funFacts.length > 0 && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground mb-2">Fun Facts</p>
+                <ul className="list-disc pl-5 text-sm space-y-1">
+                  {data.funFacts.map((fact, i) => (
+                    <li key={i}>{fact}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
             <div className="flex items-start gap-2 bg-muted/50 p-3 rounded-lg">
               <AlertCircle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
               <p className="text-sm text-muted-foreground">
-                This identification is based on visual analysis only. For scientific certainty, 
+                This identification is based on AI visual analysis. For scientific certainty, 
                 consult with a professional geologist.
               </p>
             </div>

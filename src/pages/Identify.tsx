@@ -4,48 +4,58 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ImageUploader from '@/components/ImageUploader';
 import RockResult, { RockData } from '@/components/RockResult';
-import { useToast } from '@/components/ui/use-toast';
+import ApiKeyInput from '@/components/ApiKeyInput';
+import { useToast } from '@/hooks/use-toast';
+import { identifyRockWithGemini } from '@/services/geminiService';
 
 const Identify: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<RockData | null>(null);
+  const [apiKey, setApiKey] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // This is a mock function that would be replaced with actual AI identification logic
+  const handleApiKeySubmit = (key: string) => {
+    setApiKey(key);
+  };
+
   const identifyRock = async (file: File) => {
-    // Simulate API call delay
+    if (!apiKey) {
+      toast({
+        title: "API Key Required",
+        description: "Please enter your Gemini API key to identify rocks",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setAnalyzing(true);
+    setError(null);
     
-    // Mock identification result after a delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Mock result data
-    const mockResult: RockData = {
-      type: "Igneous",
-      name: "Granite",
-      confidence: 92,
-      composition: ["Quartz", "Feldspar", "Mica", "Amphibole"],
-      description: "Granite is a light-colored, coarse-grained igneous rock that forms from the slow crystallization of magma below the Earth's surface. It is mainly composed of quartz, alkali feldspar, and plagioclase, with minor amounts of mica, amphiboles, and other minerals.",
-      commonLocations: ["North America", "Europe", "Australia"],
-      category: "Igneous Rock",
-      hardness: 7,
-      uses: [
-        "Building and construction (countertops, floor tiles)",
-        "Monuments and sculptures",
-        "Road construction (crushed stone)"
-      ],
-      formation: "Formed by the slow cooling and solidification of magma beneath the Earth's surface, allowing large crystals to form",
-      imageUrl: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
-    };
-    
-    setAnalyzing(false);
-    setResult(mockResult);
-    
-    toast({
-      title: "Rock Identified!",
-      description: `Your rock appears to be ${mockResult.name} with ${mockResult.confidence}% confidence.`
-    });
+    try {
+      // Update the identifyRockWithGemini function to use the apiKey
+      const rockData = await identifyRockWithGemini(file);
+      setResult(rockData);
+      
+      toast({
+        title: "Rock Identified!",
+        description: `Your rock appears to be ${rockData.name} with ${rockData.confidence}% confidence.`
+      });
+    } catch (err) {
+      console.error("Error identifying rock:", err);
+      setError(typeof err === 'object' && err !== null && 'message' in err 
+        ? (err as Error).message 
+        : "An unexpected error occurred while identifying your rock.");
+      
+      toast({
+        title: "Identification Failed",
+        description: "There was an error identifying your rock. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setAnalyzing(false);
+    }
   };
 
   const handleImageSelect = (file: File) => {
@@ -56,6 +66,7 @@ const Identify: React.FC = () => {
   const handleReset = () => {
     setFile(null);
     setResult(null);
+    setError(null);
   };
 
   return (
@@ -72,11 +83,26 @@ const Identify: React.FC = () => {
             </p>
           </div>
 
-          {!result ? (
-            <div className="max-w-xl mx-auto">
-              <ImageUploader onImageSelect={handleImageSelect} />
+          {!apiKey && (
+            <div className="mb-12">
+              <ApiKeyInput onKeySubmit={handleApiKeySubmit} />
             </div>
-          ) : (
+          )}
+
+          {apiKey && !result && (
+            <div className="max-w-xl mx-auto">
+              <ImageUploader onImageSelect={handleImageSelect} analyzing={analyzing} />
+              
+              {error && (
+                <div className="mt-4 p-4 border border-destructive/50 bg-destructive/10 rounded-md text-destructive text-sm">
+                  <p className="font-medium">Error: {error}</p>
+                  <p className="mt-1">Please try again with a different image or check your API key.</p>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {result && (
             <RockResult data={result} onReset={handleReset} />
           )}
         </div>
