@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Upload, Database, Info } from 'lucide-react';
+import { ArrowRight, Upload, Database, Info, Search, BookOpen, MapPin } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
@@ -14,16 +14,18 @@ const Hero: React.FC = () => {
               Identify Any <span className="gradient-text">Rock or Mineral</span> in Seconds
             </h1>
             <p className="text-muted-foreground md:text-xl max-w-[600px]">
-              Upload a photo of any rock or mineral and get instant identification using our advanced AI technology. Perfect for geology enthusiasts, students, and collectors.
+              Upload a photo of any rock or mineral and get instant identification using our advanced AI technology. Perfect for geologists, students, collectors, and enthusiasts.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-6">
               <Button size="lg" className="gap-2" asChild>
                 <Link to="/identify">
-                  Get Started <ArrowRight className="h-4 w-4" />
+                  Identify Your Rock <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/database">Browse Rock Database</Link>
+                <Link to="/search">
+                  <Search className="h-4 w-4 mr-2" /> Search Rock Database
+                </Link>
               </Button>
             </div>
             
@@ -31,22 +33,43 @@ const Hero: React.FC = () => {
               <div className="flex flex-row items-start gap-2 bg-card p-3 rounded-lg border">
                 <Upload className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-medium">Easy Upload</h3>
-                  <p className="text-sm text-muted-foreground">Take or upload a photo</p>
+                  <h3 className="font-medium">Multi-View Analysis</h3>
+                  <p className="text-sm text-muted-foreground">Upload multiple angles</p>
+                </div>
+              </div>
+              <div className="flex flex-row items-start gap-2 bg-card p-3 rounded-lg border">
+                <Search className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-medium">Search Filters</h3>
+                  <p className="text-sm text-muted-foreground">Find by properties</p>
                 </div>
               </div>
               <div className="flex flex-row items-start gap-2 bg-card p-3 rounded-lg border">
                 <Database className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-medium">Large Database</h3>
-                  <p className="text-sm text-muted-foreground">Covers major rock types</p>
+                  <h3 className="font-medium">Collection Management</h3>
+                  <p className="text-sm text-muted-foreground">Save your discoveries</p>
                 </div>
               </div>
               <div className="flex flex-row items-start gap-2 bg-card p-3 rounded-lg border">
                 <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-medium">Detailed Info</h3>
-                  <p className="text-sm text-muted-foreground">Learn about your finds</p>
+                  <h3 className="font-medium">Detailed Analysis</h3>
+                  <p className="text-sm text-muted-foreground">Comprehensive properties</p>
+                </div>
+              </div>
+              <div className="flex flex-row items-start gap-2 bg-card p-3 rounded-lg border">
+                <BookOpen className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-medium">Educational Content</h3>
+                  <p className="text-sm text-muted-foreground">Learn about geology</p>
+                </div>
+              </div>
+              <div className="flex flex-row items-start gap-2 bg-card p-3 rounded-lg border">
+                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-medium">Location-Based</h3>
+                  <p className="text-sm text-muted-foreground">Region-specific insights</p>
                 </div>
               </div>
             </div>

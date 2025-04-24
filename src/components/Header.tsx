@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { Menu, Search, Book } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -37,10 +37,20 @@ const Header: React.FC = () => {
         <nav className="hidden md:flex items-center gap-6">
           <Link to="/" className="text-sm font-medium hover:text-primary transition">Home</Link>
           <Link to="/identify" className="text-sm font-medium hover:text-primary transition">Identify</Link>
-          <Link to="/database" className="text-sm font-medium hover:text-primary transition">Rock Database</Link>
-          <Link to="/about" className="text-sm font-medium hover:text-primary transition">About</Link>
+          <Link to="/search" className="text-sm font-medium hover:text-primary transition">
+            <span className="flex items-center gap-1">
+              <Search className="w-4 h-4" />
+              Search
+            </span>
+          </Link>
+          <Link to="/education" className="text-sm font-medium hover:text-primary transition">
+            <span className="flex items-center gap-1">
+              <Book className="w-4 h-4" />
+              Education
+            </span>
+          </Link>
           <Button asChild variant="default" className="ml-2">
-            <Link to="/identify">Upload Rock</Link>
+            <Link to="/identify">Identify Rock</Link>
           </Button>
         </nav>
         
@@ -55,10 +65,20 @@ const Header: React.FC = () => {
               <div className="flex flex-col gap-4 mt-8">
                 <Link to="/" className="text-lg font-medium hover:text-primary transition">Home</Link>
                 <Link to="/identify" className="text-lg font-medium hover:text-primary transition">Identify</Link>
-                <Link to="/database" className="text-lg font-medium hover:text-primary transition">Rock Database</Link>
-                <Link to="/about" className="text-lg font-medium hover:text-primary transition">About</Link>
+                <Link to="/search" className="text-lg font-medium hover:text-primary transition">
+                  <span className="flex items-center gap-2">
+                    <Search className="w-4 h-4" />
+                    Search Database
+                  </span>
+                </Link>
+                <Link to="/education" className="text-lg font-medium hover:text-primary transition">
+                  <span className="flex items-center gap-2">
+                    <Book className="w-4 h-4" />
+                    Education
+                  </span>
+                </Link>
                 <Button asChild variant="default" className="mt-4">
-                  <Link to="/identify">Upload Rock</Link>
+                  <Link to="/identify">Identify Rock</Link>
                 </Button>
               </div>
             </SheetContent>
